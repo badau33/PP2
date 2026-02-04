@@ -1,0 +1,13 @@
+#1
+print("banana"=="banana")
+#2
+print("cat"!="dog")
+#3
+print(5*2==10)
+#4
+a=15
+b=20
+print(a>=b)
+#5
+num=100
+print(num>50)
