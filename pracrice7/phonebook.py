@@ -1,22 +1,48 @@
 import psycopg2
 import csv
-from config import load_config
-def connect():
-    config = load_config()
-    return psycopg2.connect(**config)
-conn=connect()
-cur=conn.cursor()
+# from connect import connect
 
-cur.execute("""
-CREATE TABLE IF NOT EXISTS phonebook(
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    phone VARCHAR(20)
-);
-""")
-conn.commit()
+# from config import load_config
+# def connect():
+#     # config = load_config()
+#     return psycopg2.connect(load_config())
+
+config={
+    "host":"localhost",
+    "database":"phonebook_db",
+    "user":"postgres",
+    "password":"Aw1234567"
+}
+
+def connect():
+    try: 
+        conn = psycopg2.connect(**config)
+        return conn
+    except Exception as e:
+        print("e: ", e)
+        return None
+
+def create_table():
+
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS phonebook(
+        id SERIAL PRIMARY KEY,
+        first_name VARCHAR(50),
+        last_name VARCHAR(50),
+        phone VARCHAR(20)
+    );
+    """)
+    conn.commit()
+
+    
+
+
 def insert_console():
+    conn=connect()
+    cur=conn.cursor()
     first_name=input("First name: ")
     last_name=input("Last name: ")
     phone=input("Phone: ")
@@ -26,7 +52,11 @@ def insert_console():
     )
     conn.commit()
     print('Inserted')
+
+
 def insert_csv(file):
+    conn=connect()
+    cur=conn.cursor()
     with open(file, 'r') as f:
         reader=csv.reader(f)
         next(reader)
@@ -37,7 +67,10 @@ def insert_csv(file):
             )
     conn.commit()
     print("CSV uploaded")
+
 def update():
+    conn=connect()
+    cur=conn.cursor()
     name=input("Name to update: ")
     new_phone=input("New phone: ")
     cur.execute(
@@ -47,6 +80,8 @@ def update():
     conn.commit()
     print("Updated")
 def query():
+    conn=connect()
+    cur=conn.cursor()
     print('1-ALL')
     print("2-By name")
     print("3-By phone pattern")
@@ -63,6 +98,8 @@ def query():
         print(row)
 
 def delete():
+    conn=connect()
+    cur=conn.cursor()
     print("1-By name")
     print("2-By phone")
     c = input("Choose: ")
@@ -74,6 +111,8 @@ def delete():
         cur.execute("DELETE FROM phonebook WHERE phone=%s", (phone,))
     conn.commit()
     print("Deleted")
+
+create_table()
 while True:
     print("\nMENU")
     print("1 Insert console")
