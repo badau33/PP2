@@ -1,8 +1,8 @@
 import pygame
 import datetime
-l_hand=pygame.image.load("images/left_hand.png")
-r_hand=pygame.image.load("images/right_hand.png")
-mickey=pygame.image.load("images/mickey.png")
+l_hand=pygame.image.load("images/c:\Users\Bagdaulet\Pictures\Screenshots\left_hand.png")
+r_hand=pygame.image.load("images/c:\Users\Bagdaulet\Pictures\Screenshots\right_hand.png")
+mickey=pygame.image.load("images/c:\Users\Bagdaulet\Pictures\Screenshots\mickey.png.png")
 center=(300, 300)
 def update_angles():
     now=datetime.datetime.now()
